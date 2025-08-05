@@ -44,7 +44,7 @@ export default function WelcomeSection() {
 
       {/* ASCII headline */}
       <div className="ascii-title">
-        <AsciiThreeText text="EdikyLabs" asciiFontSize={8} enableWaves={true} />
+        <AsciiThreeText text="EdikyLab" asciiFontSize={8} enableWaves={true} />
       </div>
       <h1 className="welcome-title">
         {text}
