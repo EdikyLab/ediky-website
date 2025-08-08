@@ -1,88 +1,360 @@
-/* scope everything under .login-container */
+/* ============= Root + motion prefs ============= */
+:root {
+  --accent: #0072ff;
+  --accent-2: #00c6ff;
+  --ring: rgba(0, 114, 255, 0.25);
+  --card-bg: rgba(255, 255, 255, 0.06);
+  --card-border: rgba(255, 255, 255, 0.12);
+  --text: #fff;
+  --muted: #aeb4bf;
+  --danger: #ff6b6b;
+  --success: #21c55d;
+  --dur: 320ms;
+  --easing: cubic-bezier(.2, .8, .2, 1);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --card-bg: rgba(0, 0, 0, 0.04);
+    --card-border: rgba(0, 0, 0, 0.08);
+    --text: #0f1115;
+    --muted: #6b7280;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ============= Container & layout ============= */
 .login-container {
-  background: #000;
+  background: radial-gradient(1200px 1200px at 10% 10%, rgba(0, 114, 255, .18), transparent 40%),
+    radial-gradient(1200px 1200px at 90% 20%, rgba(0, 198, 255, .16), transparent 40%),
+    #000;
   min-height: 100vh;
-  padding: 2rem;
+  padding: clamp(1rem, 2vw, 2rem);
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--text);
 }
 
-/* center the row */
 .login-content {
   width: 100%;
   max-width: 1200px;
 }
 
-/* form section needs to be relative for the blur */
+/* Page entrance */
+.page-fade {
+  opacity: 0;
+  transform: translateY(8px) scale(.98);
+}
+
+.page-fade.in {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--dur) var(--easing), transform var(--dur) var(--easing);
+}
+
+/* Left side */
+.welcome-text {
+  font-weight: 800;
+  letter-spacing: .3px;
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.welcome-sub {
+  color: var(--muted);
+  margin-bottom: .5rem;
+}
+
+.login-animation {
+  width: 360px;
+  max-width: 90%;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+  mask-image: radial-gradient(circle at 70% 30%, black 70%, transparent 100%);
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: fadeUp var(--dur) var(--easing) .05s forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Right side container for blur */
 .form-section {
   position: relative;
   display: flex;
   justify-content: center;
 }
 
-/* the blur */
+/* ShapeBlur background */
 .shape-background {
   position: absolute !important;
   top: 50%;
   left: 50%;
-  width: 600px;    /* tune to your card size */
-  height: 600px;   /* tune to your card size */
+  width: 620px;
+  height: 620px;
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 1;
 }
 
-/* the card */
+.shape-background canvas {
+  pointer-events: none;
+}
+
+/* ============= Card ============= */
 .login-card {
   position: relative;
   z-index: 2;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(10px);
-  border-radius: 1rem;
-  padding: 2rem;
   width: 100%;
-  max-width: 360px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  max-width: 380px;
+  padding: 1.75rem;
+  border-radius: 18px;
+  background: var(--card-bg);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
 }
 
-/* adjust inputs & buttons as before */
+.card-pop {
+  opacity: 0;
+  transform: translateY(14px) scale(.985);
+}
+
+.card-pop.in {
+  opacity: 1;
+  transform: none;
+  transition: opacity 420ms var(--easing), transform 420ms var(--easing);
+}
+
+.login-card-title {
+  margin-bottom: .25rem;
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* Inline toast */
+.inline-toast {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-weight: 600;
+  padding: .6rem .8rem;
+  border-radius: 12px;
+  margin-bottom: .75rem;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, .06);
+}
+
+.inline-toast.success {
+  border-color: rgba(33, 197, 93, .35);
+  color: var(--success);
+  background: rgba(33, 197, 93, .10);
+}
+
+.inline-toast.error {
+  border-color: rgba(255, 107, 107, .35);
+  color: var(--danger);
+  background: rgba(255, 107, 107, .10);
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  color: var(--muted);
+  font-weight: 600;
+  margin: .5rem 0 1rem;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: var(--card-border);
+}
+
+.divider span {
+  opacity: .8;
+}
+
+/* ============= Fields ============= */
+.field {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.field-icon {
+  position: absolute;
+  left: .9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: .95rem;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.field-trailing {
+  position: absolute;
+  right: .4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.field-trailing:hover {
+  background: rgba(255, 255, 255, .06);
+  border-color: var(--card-border);
+  color: var(--text);
+}
+
 .login-input {
   width: 100%;
-  margin-bottom: 1rem;
-  padding: 0.75rem 1rem;
-  border: 1px solid #444;
-  border-radius: 0.75rem;
-  background: rgba(255,255,255,0.1);
-  color: #fff;
+  padding: 0.8rem 2.6rem 0.8rem 2.4rem;
+  /* space for icons */
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  outline: none;
+  transition: box-shadow .2s ease, border-color .2s ease, background .2s ease;
 }
-.login-input::placeholder { color: #aaa; }
 
+.login-input::placeholder {
+  color: #a2a8b3;
+}
+
+.login-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 6px var(--ring);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ============= Buttons ============= */
 .login-btn {
   width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  border-radius: 1rem;
-  font-weight: 700;
+  padding: 0.8rem;
+  border-radius: 14px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
   cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform .08s ease, filter .2s ease, box-shadow .2s ease, background .2s ease, border .2s ease, color .2s ease;
 }
+
+.login-btn:active {
+  transform: translateY(1px);
+}
+
+.login-btn:disabled {
+  opacity: .7;
+  cursor: not-allowed;
+}
+
 .login-btn-primary {
-  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  background: linear-gradient(135deg, var(--accent-2), var(--accent));
   color: #000;
+  box-shadow: 0 10px 24px rgba(0, 114, 255, .28);
 }
+
+.login-btn-primary:hover {
+  filter: brightness(.96);
+  box-shadow: 0 0 0 6px var(--ring);
+}
+
 .login-btn-google {
   background: transparent;
   border: 2px solid #db4437;
   color: #db4437;
 }
 
-/* toggle text */
+.login-btn-google:hover {
+  background: rgba(219, 68, 55, .08);
+  box-shadow: 0 0 0 6px rgba(219, 68, 55, .18);
+}
+
+/* Spinner */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Toggle text */
+.login-toggle-text {
+  text-align: center;
+  color: var(--muted);
+  margin: .25rem 0 0;
+}
+
 .login-toggle-link {
-  color: #0072ff;
+  color: var(--accent);
+  background: none;
+  border: none;
+  padding: 0 .25rem;
+  font-weight: 800;
   cursor: pointer;
 }
 
-/* hide pointer on blur */
-.shape-background canvas {
-  pointer-events: none;
+.login-toggle-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .login-card {
+    max-width: 92vw;
+  }
+
+  .shape-background {
+    width: 520px;
+    height: 520px;
+  }
 }

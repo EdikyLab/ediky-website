@@ -1,0 +1,69 @@
+/* Scoped tokens */
+.tms{
+  --text:#e6edf3; --muted:#9ba7b4; --border:#1c2430;
+  --brand:#69a8ff; --accent:#7c5cff; --ring:rgba(105,168,255,.35);
+  padding:64px 0;
+  background: radial-gradient(900px 420px at 50% -12%, rgba(124,92,255,.10), transparent 60%);
+}
+.tms__container{ max-width:1160px; margin:0 auto; padding:0 24px; }
+
+.tms__head{ text-align:center; margin-bottom:26px; }
+.tms__kicker{
+  display:inline-block; padding:4px 10px; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); border:1px solid var(--border); border-radius:999px; background:rgba(255,255,255,.02);
+}
+.tms__title{ margin:10px 0 0; color:var(--text); font-size:clamp(24px,3.2vw,38px); line-height:1.15; font-weight:700; }
+
+/* Grid: 1 → 2 → 3 (future-proof) */
+.tms__grid{
+  display:grid; gap:16px; margin-top:28px; padding:0; list-style:none;
+  grid-template-columns: 1fr;
+}
+@media (min-width:780px){ .tms__grid{ grid-template-columns: repeat(2,1fr); } }
+@media (min-width:1160px){ .tms__grid{ grid-template-columns: repeat(3,1fr); } }
+
+/* Card */
+.tms__item{
+  transform: translateY(8px); opacity:0;
+}
+.tms__item.in{ animation: tms-in .44s cubic-bezier(.2,.65,.3,1) calc(var(--i) * 80ms) forwards; }
+@keyframes tms-in{ to{ transform:none; opacity:1; } }
+
+.tms__card{
+  position:relative; height:100%;
+  border:1px solid var(--border); border-radius:14px; overflow:hidden;
+  background: rgba(255,255,255,.015);
+  box-shadow: 0 1px 0 rgba(255,255,255,.02) inset;
+  padding:20px 20px 18px;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+}
+.tms__card::before{
+  /* thin gradient top border that slides on hover */
+  content:""; position:absolute; left:0; right:0; top:0; height:2px;
+  background: linear-gradient(90deg, var(--brand), var(--accent));
+  transform: translateX(-30%);
+  opacity:.7; transition: transform .5s ease;
+}
+.tms__item:hover .tms__card{ transform: translateY(-2px); border-color: rgba(105,168,255,.35); background: rgba(255,255,255,.02); }
+.tms__item:hover .tms__card::before{ transform: translateX(0); }
+.tms__item:focus-visible{ outline:2px solid var(--ring); outline-offset:4px; }
+
+/* Quote content */
+.tms__quote{
+  position:relative; margin:0 0 12px; color:var(--text); line-height:1.55; font-size:15.5px;
+}
+.tms__quote::before{
+  content:"“"; position:absolute; left:-6px; top:-6px; font-size:36px; line-height:1;
+  background: linear-gradient(180deg, var(--brand), var(--accent));
+  -webkit-background-clip:text; background-clip:text; color:transparent; opacity:.8;
+}
+.tms__quote p{ margin:0 0 0 18px; } /* offset to clear the decorative mark */
+
+.tms__by{ color:var(--muted); font-style:normal; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .tms__item{ transform:none; opacity:1; }
+  .tms__item.in{ animation:none; }
+  .tms__card, .tms__card::before{ transition:none; }
+}

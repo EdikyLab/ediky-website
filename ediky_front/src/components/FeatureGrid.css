@@ -1,0 +1,62 @@
+/* Scoped tokens */
+.fg{
+  --bg:#0b0f14; --text:#e6edf3; --muted:#9ba7b4;
+  --border:#1c2430; --brand:#69a8ff; --accent:#7c5cff; --ring:rgba(105,168,255,.35);
+  padding:64px 0;
+  background: radial-gradient(900px 420px at 50% -12%, rgba(124,92,255,.10), transparent 60%);
+}
+.fg__container{ max-width:1160px; margin:0 auto; padding:0 24px; }
+
+.fg__head{ text-align:center; margin-bottom:26px; }
+.fg__kicker{
+  display:inline-block; padding:4px 10px; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); border:1px solid var(--border); border-radius:999px; background:rgba(255,255,255,.02);
+}
+.fg__title{ margin:10px 0 0; color:var(--text); font-size:clamp(24px,3.2vw,38px); line-height:1.15; font-weight:700; }
+.fg__sub{ margin:8px 0 0; color:var(--muted); }
+
+/* Grid: 1 → 2 → 3 columns */
+.fg__grid{
+  display:grid; gap:16px; margin-top:28px;
+  grid-template-columns: 1fr;
+}
+@media (min-width:700px){ .fg__grid{ grid-template-columns: repeat(2,1fr); } }
+@media (min-width:1080px){ .fg__grid{ grid-template-columns: repeat(3,1fr); } }
+
+/* Card */
+.fg__item{
+  list-style:none; border:1px solid var(--border); border-radius:14px;
+  background: rgba(255,255,255,.015);
+  box-shadow: 0 1px 0 rgba(255,255,255,.02) inset;
+  transform: translateY(8px); opacity:0;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease, opacity .28s ease;
+}
+.fg__item.in{ animation: fg-in .44s cubic-bezier(.2,.65,.3,1) calc(var(--i) * 70ms) forwards; }
+@keyframes fg-in{ to{ transform:none; opacity:1; } }
+
+.fg__inset{ padding:18px 18px 20px; }
+.fg__item:hover{ transform: translateY(-2px); border-color: rgba(105,168,255,.35); background: rgba(255,255,255,.02); }
+.fg__item:focus-visible{ outline:2px solid var(--ring); outline-offset:2px; }
+
+/* Icon dot with very subtle animation */
+.fg__icon{
+  display:inline-block; width:14px; height:14px; border-radius:6px; margin-bottom:12px;
+  background: radial-gradient(circle at 30% 30%, var(--brand), var(--accent));
+  filter: saturate(120%);
+  animation: fg-breathe 2.4s ease-in-out infinite;
+  opacity:.9;
+}
+@keyframes fg-breathe{
+  0%,100%{ transform: scale(1); opacity:.9; }
+  50%{ transform: scale(1.06); opacity:1; }
+}
+
+.fg__item-title{ margin:0 0 6px; font-size:17px; color:var(--text); }
+.fg__item-desc{ margin:0; font-size:14px; color:var(--muted); line-height:1.5; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .fg__item{ transition:none; transform:none; opacity:1; }
+  .fg__item.in{ animation:none; }
+  .fg__icon{ animation:none; }
+}

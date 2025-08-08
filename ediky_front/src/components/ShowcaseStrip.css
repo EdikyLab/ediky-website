@@ -1,0 +1,132 @@
+/* Minimal, modern, smooth */
+
+.showcase-strip { padding-top: 36px; }
+
+.showcase-grid{
+  display:grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap:28px;
+  align-items:center;
+}
+@media (max-width:980px){
+  .showcase-grid{ grid-template-columns:1fr; gap:18px; }
+}
+
+/* ===== Page-enter pop-in (applies once) ===== */
+.showcase-strip .window,
+.showcase-strip .showcase-copy{ 
+  opacity:0; transform: translateY(14px) scale(.965);
+  filter: blur(6px);
+}
+.showcase-strip.has-entered .window,
+.showcase-strip.has-entered .showcase-copy{
+  transition: transform .6s var(--e-out), opacity .6s var(--e-out), filter .6s var(--e-out);
+}
+.showcase-strip.has-entered .window{ transition-delay: .02s; }
+.showcase-strip.has-entered .showcase-copy{ transition-delay: .08s; }
+
+/* ===== Media window ===== */
+.showcase-strip .window{
+  --rx: 0deg; --ry: 0deg;
+  position:relative; margin:0 auto; width:min(980px,92vw); aspect-ratio:16/9;
+  border-radius: var(--radius-xl);
+  overflow:hidden;
+  background: var(--card-bg);
+  border: 1px solid var(--card-stroke);
+  box-shadow: var(--shadow-1);
+  transform: translateY(14px) scale(.965) rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d;
+}
+.showcase-strip .window.is-visible{
+  opacity:1; filter:none; transform: rotateX(var(--rx)) rotateY(var(--ry));
+}
+@media (hover:hover){
+  .showcase-strip .window:hover{ transform: rotateX(var(--rx)) rotateY(var(--ry)) scale(.99); }
+}
+
+.showcase-strip .window-dots{
+  position:absolute; top:10px; left:12px; display:flex; gap:8px; z-index:2; opacity:.85;
+}
+.showcase-strip .window-dots span{
+  width:10px; height:10px; border-radius:999px; background:#ff5f57;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.25);
+}
+.showcase-strip .window-dots span:nth-child(2){ background:#ffbd2e; }
+.showcase-strip .window-dots span:nth-child(3){ background:#28c840; }
+
+.showcase-strip .window-media{
+  width:100%; height:100%; object-fit:cover; display:block;
+  opacity:0; transform:scale(1.01);
+  transition: opacity .35s ease-out, transform 8s linear;
+}
+.showcase-strip .window-media.is-ready{ opacity:1; }
+@media (hover:hover){
+  .showcase-strip .window:hover .window-media{ transform:scale(1.03); }
+}
+
+/* loading skeleton */
+.showcase-strip .window-skeleton{
+  position:absolute; inset:0; border-radius:inherit; z-index:1; overflow:hidden;
+  background: linear-gradient(90deg, rgba(255,255,255,.04), rgba(255,255,255,.08), rgba(255,255,255,.04));
+  animation: shimmer 1.2s linear infinite;
+}
+@keyframes shimmer{ from{ transform: translateX(-30%);} to{ transform: translateX(30%);} }
+
+/* progress (kept ultra-minimal) */
+.showcase-strip .video-progress{
+  position:absolute; left:0; bottom:0; height:2px; z-index:2;
+  background: linear-gradient(90deg, var(--brand), var(--accent));
+  opacity:.9; transition: width .12s linear;
+}
+
+/* ===== Right copy ===== */
+.showcase-strip .showcase-copy{
+  opacity:0; filter:blur(6px);
+  transform: translateY(14px) scale(.965);
+}
+.showcase-strip .showcase-copy.is-visible{
+  opacity:1; filter:none; transform:none;
+}
+
+.showcase-strip .eyebrow{
+  display:inline-block; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
+  color:#c9d6ff; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14);
+  padding:.26rem .56rem; border-radius:999px; backdrop-filter:blur(6px); margin-bottom:10px;
+}
+
+.showcase-strip .copy-title{
+  color:var(--text); font-size:clamp(1.6rem,3vw,2.1rem);
+  letter-spacing:-.01em; margin:6px 0 10px;
+}
+
+.showcase-strip .copy-sub{
+  color:var(--muted); margin:0 0 12px; line-height:1.55;
+}
+
+/* Minimal bullet list */
+.showcase-strip .point-list{
+  list-style:none; padding:0; margin:0; color:var(--text);
+  display:grid; gap:8px;
+}
+.showcase-strip .point-list li{
+  display:flex; align-items:center;
+  transition: transform .25s var(--e-out), opacity .25s var(--e-out);
+}
+.showcase-strip .point-list .dot{
+  display:inline-block; width:8px; height:8px; border-radius:999px; margin-right:8px;
+  background: linear-gradient(90deg, var(--brand), var(--accent));
+  box-shadow: 0 0 10px rgba(105,168,255,.45);
+}
+@media (hover:hover){
+  .showcase-strip .point-list li:hover{ transform: translateX(4px); }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .showcase-strip .window,
+  .showcase-strip .window-media,
+  .showcase-strip .showcase-copy,
+  .showcase-strip .point-list li{
+    transition:none !important; animation:none !important; transform:none !important; filter:none !important;
+  }
+}

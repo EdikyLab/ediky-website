@@ -1,0 +1,57 @@
+/* Scoped, minimal, no global leaks */
+.hiw-wrap{
+  --bg:#0b0f14; --text:#e6edf3; --muted:#9ba7b4;
+  --border:#1c2430; --brand:#69a8ff; --accent:#7c5cff; --ring:rgba(105,168,255,.35);
+  padding:64px 0;
+  background: radial-gradient(900px 420px at 50% -12%, rgba(124,92,255,.10), transparent 60%);
+}
+.hiw-container{ max-width:1160px; margin:0 auto; padding:0 24px; }
+
+.hiw-head{ text-align:center; margin-bottom:24px; }
+.hiw-kicker{
+  display:inline-block; padding:4px 10px; border:1px solid var(--border);
+  border-radius:999px; font-size:12px; letter-spacing:.08em; color:var(--muted); text-transform:uppercase;
+  background: rgba(255,255,255,.02);
+}
+.hiw-title{
+  margin:10px 0 0; color:var(--text); font-size:clamp(24px,3.2vw,38px); line-height:1.15; font-weight:700;
+}
+.hiw-title .hiw-accent{
+  background: linear-gradient(90deg, var(--brand), var(--accent));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  border-bottom:2px solid rgba(124,92,255,.45);
+}
+
+/* Grid: 1 → 2 → 4 columns */
+.hiw-grid{
+  display:grid; gap:16px; margin-top:28px;
+  grid-template-columns: 1fr;
+}
+@media (min-width:700px){ .hiw-grid{ grid-template-columns: repeat(2, 1fr);} }
+@media (min-width:1080px){ .hiw-grid{ grid-template-columns: repeat(4, 1fr);} }
+
+/* Card: flat, crisp, minimal motion */
+.hiw-item{
+  list-style:none; padding:18px 18px 20px;
+  border:1px solid var(--border); border-radius:12px;
+  background: rgba(255,255,255,.015);
+  box-shadow: 0 1px 0 rgba(255,255,255,.02) inset;
+  transform: translateY(6px); opacity:0;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease, opacity .28s ease;
+}
+.hiw-item.in{ animation: hiw-in .44s cubic-bezier(.2,.65,.3,1) calc(var(--i) * 70ms) forwards; }
+@keyframes hiw-in{ to{ transform:none; opacity:1; } }
+
+.hiw-item:hover{ transform: translateY(-2px); border-color: rgba(105,168,255,.35); background: rgba(255,255,255,.02); }
+.hiw-item:focus-visible{ outline:2px solid var(--ring); outline-offset:2px; }
+
+.hiw-chip{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:34px; height:34px; border-radius:9px; font-weight:700; font-size:13px; color:var(--text);
+  border:1px solid rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(105,168,255,.25), rgba(124,92,255,.25));
+  margin-bottom:12px;
+}
+
+.hiw-item-title{ margin:0 0 6px; font-size:17px; color:var(--text); }
+.hiw-item-desc{ margin:0; font-size:14px; color:var(--muted); line-height:1.45; }
