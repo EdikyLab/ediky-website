@@ -268,3 +268,72 @@
 .app-navbar * {
   color-scheme: dark;
 }
+/* Avatar circle that replaces the login button after auth */
+.app-navbar .avatar-btn{
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--nav-border);
+  background: rgba(255, 255, 255, .06);
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  overflow: hidden;
+  transition: transform .12s ease, border-color .2s ease;
+}
+.app-navbar .avatar-btn:hover{
+  transform: translateY(-1px);
+  border-color: var(--nav-accent-soft);
+}
+.app-navbar .avatar-btn img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Slightly tighter dropdown spacing for avatar menu */
+.app-navbar .dropdown-menu.nav-dropdown{
+  min-width: 160px;
+  padding: .35rem;
+}
+
+/* Optional: tiny entrance on first mount (feels modern but minimal) */
+.app-navbar.is-mounted .brand-logo{
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform .35s ease, opacity .35s ease;
+}
+/* Avatar button + fallback initials */
+.app-navbar .avatar-btn{
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--nav-border);
+  background: rgba(255,255,255,.06);
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  overflow: hidden;
+  transition: transform .12s ease, border-color .2s ease;
+}
+.app-navbar .avatar-btn:hover{
+  transform: translateY(-1px);
+  border-color: var(--nav-accent-soft);
+}
+.app-navbar .avatar-btn img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.app-navbar .avatar-letters{
+  display: inline-grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-weight: 700;
+  letter-spacing: .3px;
+  color: #e7efff;
+  background: linear-gradient(180deg, rgba(105,168,255,.20), rgba(105,168,255,.08));
+}
