@@ -15,7 +15,8 @@
 
   position: sticky;
   top: 0;
-  z-index: 4000; /* above hero/video */
+  z-index: 4000;
+  /* above hero/video */
   color: var(--nav-text);
   background: var(--nav-bg);
   -webkit-backdrop-filter: saturate(140%) blur(10px);
@@ -25,30 +26,70 @@
 }
 
 @supports not (backdrop-filter: blur(1px)) {
-  .app-navbar { background: var(--nav-bg-solid); }
+  .app-navbar {
+    background: var(--nav-bg-solid);
+  }
 }
 
 /* stronger when scrolled */
 .app-navbar.is-scrolled {
   background: color-mix(in srgb, var(--nav-bg) 85%, var(--nav-bg-solid));
-  box-shadow: 0 6px 24px rgba(0,0,0,.25);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .25);
 }
 
 /* container */
-.app-navbar .nav-container { max-width: min(1200px, 92vw); }
+.app-navbar .nav-container {
+  max-width: min(1200px, 92vw);
+}
 
 /* brand */
-.app-navbar .brand { text-decoration:none; display:flex; align-items:center; gap:.6rem; }
-.app-navbar .brand-logo { height:26px; width:auto; display:block; filter: brightness(1.15); }
-.app-navbar .brand-name { font-weight:600; letter-spacing:.2px; color:var(--nav-text); }
+.app-navbar .brand {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+
+.app-navbar .brand-logo {
+  height: 26px;
+  width: auto;
+  display: block;
+  filter: brightness(1.15);
+}
+
+.app-navbar .brand-name {
+  font-weight: 600;
+  letter-spacing: .2px;
+  color: var(--nav-text);
+}
 
 /* toggler */
-.app-navbar .navbar-toggler { border:0; padding:.375rem .5rem; border-radius:10px; background:transparent; }
-.app-navbar .toggler-line { display:block; width:22px; height:2px; background:var(--nav-text); border-radius:2px; margin:4px 0; }
+.app-navbar .navbar-toggler {
+  border: 0;
+  padding: .375rem .5rem;
+  border-radius: 10px;
+  background: transparent;
+}
+
+.app-navbar .toggler-line {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--nav-text);
+  border-radius: 2px;
+  margin: 4px 0;
+}
 
 /* nav spacing */
-.app-navbar .nav-gap { gap:.25rem; }
-@media (min-width: 992px){ .app-navbar .nav-gap { gap:.5rem; } }
+.app-navbar .nav-gap {
+  gap: .25rem;
+}
+
+@media (min-width: 992px) {
+  .app-navbar .nav-gap {
+    gap: .5rem;
+  }
+}
 
 /* ===========================
    TOP-LEVEL LINKS (force high contrast)
@@ -56,12 +97,14 @@
 .app-navbar .navbar-nav .nav-link,
 .app-navbar .navbar-nav .nav-link.link,
 .app-navbar .navbar-nav .dropdown-toggle {
-  color:#eaf1f7 !important;   /* brighter text */
-  opacity:1 !important;       /* kill bootstrap fade */
-  font-weight:500;
-  padding:.5rem .75rem;
-  text-decoration:none;
-  background:linear-gradient(var(--nav-accent), var(--nav-accent)) no-repeat 50% 100% / 0 2px;
+  color: #eaf1f7 !important;
+  /* brighter text */
+  opacity: 1 !important;
+  /* kill bootstrap fade */
+  font-weight: 500;
+  padding: .5rem .75rem;
+  text-decoration: none;
+  background: linear-gradient(var(--nav-accent), var(--nav-accent)) no-repeat 50% 100% / 0 2px;
   transition: background-size .2s ease, color .2s ease;
 }
 
@@ -70,108 +113,158 @@
 .app-navbar .navbar-nav .nav-link.active,
 .app-navbar .navbar-nav .dropdown-toggle:hover,
 .app-navbar .navbar-nav .dropdown-toggle:focus-visible,
-.app-navbar .navbar-nav .show > .nav-link {
-  color:#ffffff !important;
-  background-size:100% 2px;
-  outline:none;
+.app-navbar .navbar-nav .show>.nav-link {
+  color: #ffffff !important;
+  background-size: 100% 2px;
+  outline: none;
 }
 
 /* guard against global .navbar-dark/.navbar-light rules */
-.app-navbar .navbar-nav .nav-link.disabled { color:#6a7686 !important; opacity:.7 !important; }
+.app-navbar .navbar-nav .nav-link.disabled {
+  color: #6a7686 !important;
+  opacity: .7 !important;
+}
 
 /* ===========================
    DROPDOWN (dark, clean)
 =========================== */
 .app-navbar .dropdown-menu {
-  background:#0e141b;
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:12px;
-  padding:.35rem;
-  inset: auto !important; /* avoid weird offsets under glass */
+  background: #0e141b;
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 12px;
+  padding: .35rem;
+  inset: auto !important;
+  /* avoid weird offsets under glass */
 }
 
 .app-navbar .dropdown-item {
-  color:var(--nav-text) !important;
-  border-radius:8px;
-  padding:.45rem .6rem;
+  color: var(--nav-text) !important;
+  border-radius: 8px;
+  padding: .45rem .6rem;
 }
+
 .app-navbar .dropdown-item:hover,
 .app-navbar .dropdown-item:focus {
-  background:rgba(255,255,255,.08);
+  background: rgba(255, 255, 255, .08);
 }
+
 .app-navbar .dropdown-item.active,
 .app-navbar .dropdown-item:active {
-  background:var(--nav-accent-soft);
-  color:#fff !important;
+  background: var(--nav-accent-soft);
+  color: #fff !important;
 }
 
 /* ===========================
    ICON + CTA BUTTONS
 =========================== */
-.app-navbar .icon-btn{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:38px; height:38px;
-  border-radius:10px;
-  border:1px solid var(--nav-border);
-  background:rgba(255,255,255,.06);
-  color:var(--nav-text) !important;
+.app-navbar .icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--nav-border);
+  background: rgba(255, 255, 255, .06);
+  color: var(--nav-text) !important;
   transition: transform .12s ease, border-color .2s ease;
 }
-.app-navbar .icon-btn:hover { transform:translateY(-1px); border-color:var(--nav-accent-soft); }
 
-.app-navbar .nav-cta{
-  height:38px; padding:0 .9rem; border-radius:999px;
-  display:inline-flex; align-items:center; gap:.45rem;
-  font-weight:500;
-  border:1px solid var(--nav-border);
-  color:var(--nav-text) !important;
+.app-navbar .icon-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--nav-accent-soft);
+}
+
+.app-navbar .nav-cta {
+  height: 38px;
+  padding: 0 .9rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  font-weight: 500;
+  border: 1px solid var(--nav-border);
+  color: var(--nav-text) !important;
   transition: transform .12s ease, border-color .2s ease, background-color .2s ease;
 }
-.app-navbar .nav-cta.solid{
-  background:linear-gradient(180deg, rgba(105,168,255,.18), rgba(105,168,255,.12));
-  border-color:var(--nav-accent-soft);
+
+.app-navbar .nav-cta.solid {
+  background: linear-gradient(180deg, rgba(105, 168, 255, .18), rgba(105, 168, 255, .12));
+  border-color: var(--nav-accent-soft);
 }
-.app-navbar .nav-cta.ghost{ background:rgba(255,255,255,.06); }
-.app-navbar .nav-cta.danger{
-  background:rgba(255,59,59,.08);
-  color:#ff9a9a !important;
-  border-color:rgba(255,59,59,.2);
+
+.app-navbar .nav-cta.ghost {
+  background: rgba(255, 255, 255, .06);
 }
-.app-navbar .nav-cta:hover{ transform:translateY(-1px); }
-.app-navbar .nav-cta.copied{
-  background:rgba(52,199,89,.18);
-  border-color:rgba(52,199,89,.28);
-  color:#b6f3c9 !important;
+
+.app-navbar .nav-cta.danger {
+  background: rgba(255, 59, 59, .08);
+  color: #ff9a9a !important;
+  border-color: rgba(255, 59, 59, .2);
+}
+
+.app-navbar .nav-cta:hover {
+  transform: translateY(-1px);
+}
+
+.app-navbar .nav-cta.copied {
+  background: rgba(52, 199, 89, .18);
+  border-color: rgba(52, 199, 89, .28);
+  color: #b6f3c9 !important;
 }
 
 /* back button + user chip */
-.app-navbar .back-btn { margin-right:.25rem; }
-.app-navbar .user-chip{
-  display:inline-flex; align-items:center; gap:.5rem;
-  padding:4px 8px; border-radius:999px;
-  background:rgba(255,255,255,.06);
-  border:1px solid var(--nav-border);
+.app-navbar .back-btn {
+  margin-right: .25rem;
 }
-.app-navbar .chip-initials{
-  width:22px; height:22px; border-radius:50%;
-  display:grid; place-items:center;
-  background:rgba(255,255,255,.1);
-  font-size:12px; font-weight:700;
+
+.app-navbar .user-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid var(--nav-border);
 }
-.app-navbar .chip-name{ color:var(--nav-muted); }
+
+.app-navbar .chip-initials {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, .1);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.app-navbar .chip-name {
+  color: var(--nav-muted);
+}
 
 /* accessibility focus */
 .app-navbar .navbar-nav .nav-link:focus-visible,
 .app-navbar .dropdown-item:focus-visible {
-  outline:2px solid var(--nav-accent-soft);
-  outline-offset:2px;
+  outline: 2px solid var(--nav-accent-soft);
+  outline-offset: 2px;
 }
 
 /* Make sure generic a{} rules can’t dim links */
-.app-navbar a { color:#eaf1f7 !important; text-decoration:none; }
+.app-navbar a {
+  color: #eaf1f7 !important;
+  text-decoration: none;
+}
 
 /* keep Bootstrap from adding unwanted padding/opacity */
-.app-navbar .navbar-nav .nav-link { padding-top:.4rem; padding-bottom:.4rem; opacity:1 !important; }
+.app-navbar .navbar-nav .nav-link {
+  padding-top: .4rem;
+  padding-bottom: .4rem;
+  opacity: 1 !important;
+}
 
 /* Force dark color scheme so system UI picks appropriate colors */
-.app-navbar, .app-navbar * { color-scheme: dark; }
+.app-navbar,
+.app-navbar * {
+  color-scheme: dark;
+}
