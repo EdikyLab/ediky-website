@@ -1,53 +1,68 @@
-# Ediky
+# EdikyStudio
 
-Welcome to [Ediky](https://ediky.com/), your comprehensive hub for algorithms and machine learning resources.
+**AI-powered, minimalist video editor.**
+This repository contains the public website for EdikyStudio.
 
-## Features
+* Website: [https://ediky.com](https://ediky.com)
+* Contact: [contact@edikylabs.dev](mailto:contact@edikylabs.dev)
 
-* **Educational Content**: Access a wide range of tutorials and articles on algorithms and machine learning concepts.
-* **Interactive Examples**: Engage with hands-on examples to deepen your understanding of complex topics.
-* **Resource Library**: Explore a curated collection of books, research papers, and online courses to further your learning.
-* **Community Forum**: Join discussions with fellow learners and experts to share knowledge and insights.
+## Product highlights
 
-## Local Development Setup
+* GPU-accelerated playback and export (Metal/Vulkan)
+* AI-assisted editing and auto-captioning
+* Minimal, creator-first interface
+* Pro exports: H.264, HEVC, ProRes, image sequences
+* 4K and 10-bit color support
 
-To set up Ediky for local development, follow these steps:
+## Tech stack (website)
 
-1. **Clone the Repository**:
+* React + React Router
+* CSS (custom) and Bootstrap utilities
+* Firebase Authentication (optional)
 
-   ```bash
-   git clone https://github.com/ediky/ediky-Website.git
-   cd ediky-Website
-   ```
+## Requirements
 
-2. **Install Dependencies**:
+* Node.js 18+ and npm 9+
 
-   Ensure you have [Node.js](https://nodejs.org/) installed. Then, run:
+## Getting started
 
-   ```bash
-   npm install
-   ```
+```bash
+git clone https://github.com/EdikyLab/ediky-website.git
+cd ediky-website
+npm install
+cp .env.example .env   # create your env file
+npm start
+```
 
-3. **Configure Environment Variables**:
+The site runs at [http://localhost:3000](http://localhost:3000).
 
-   Create a `.env` file in the root directory and add your Firebase configuration:
+## Environment variables
 
-   ```env
-   REACT_APP_FIREBASE_API_KEY=your-firebase-api-key
-   REACT_APP_FIREBASE_AUTH_DOMAIN=your-firebase-auth-domain
-   REACT_APP_FIREBASE_PROJECT_ID=your-firebase-project-id
-   REACT_APP_FIREBASE_STORAGE_BUCKET=your-firebase-storage-bucket
-   REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your-firebase-messaging-sender-id
-   REACT_APP_FIREBASE_APP_ID=your-firebase-app-id
-   REACT_APP_FIREBASE_MEASUREMENT_ID=your-firebase-measurement-id
-   ```
+Create a `.env` in the project root:
 
-   Replace the placeholder values with your actual Firebase project credentials.
+```env
+REACT_APP_FIREBASE_API_KEY=
+REACT_APP_FIREBASE_AUTH_DOMAIN=
+REACT_APP_FIREBASE_PROJECT_ID=
+REACT_APP_FIREBASE_STORAGE_BUCKET=
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=
+REACT_APP_FIREBASE_APP_ID=
+REACT_APP_FIREBASE_MEASUREMENT_ID=
+```
 
-4. **Start the Development Server**:
+If you don’t use Firebase auth, leave these unset and remove the auth components.
 
-   ```bash
-   npm start
-   ```
+## Scripts
 
-   The application will run at [http://localhost:3000](http://localhost:3000).
+```bash
+npm start   # run dev server
+npm run build  # production build
+```
+
+## Contributing
+
+Please open an issue before submitting large changes. Small fixes and improvements are welcome.
+
+## License
+
+© 2025 Ediky Labs. All rights reserved.
