@@ -47,7 +47,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  border-bottom: 2px solid rgba(124, 92, 255, .45);
+  /* border-bottom: 2px solid rgba(124, 92, 255, .45); */
 }
 
 /* Grid: 1 → 2 → 4 columns */

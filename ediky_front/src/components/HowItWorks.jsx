@@ -27,7 +27,7 @@ export default function HowItWorks() {
         <header className="hiw-head">
           <span className="hiw-kicker">How it works</span>
           <h2 id="hiw-title" className="hiw-title">
-            From import to <span className="hiw-accent">export</span>—without friction
+            From import to <span className="hiw-accent">export</span> without friction
           </h2>
         </header>
 
