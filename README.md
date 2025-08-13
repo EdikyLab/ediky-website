@@ -4,7 +4,7 @@
 This repository contains the public website for EdikyStudio.
 
 * Website: [https://ediky.com](https://ediky.com)
-* Contact: [contact@edikylabs.dev](mailto:contact@edikylabs.dev)
+* Contact: [bisoyi7004@gmail.com](mailto:bisoyi7004@gmail.com)
 
 ## Product highlights
 
