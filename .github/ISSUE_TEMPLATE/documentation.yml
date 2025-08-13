@@ -1,0 +1,16 @@
+name: Documentation
+description: Report an issue or request for docs
+labels: [documentation]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Affected page/section
+      placeholder: docs/getting-started.md#installation
+    validations: { required: true }
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      placeholder: What’s wrong or missing? Suggested fix?
+    validations: { required: true }

@@ -1,0 +1,29 @@
+name: Feature request
+description: Suggest an idea or enhancement
+labels: [feature]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Title
+      placeholder: e.g. Add multi-track timeline snapping
+    validations: { required: true }
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation / use case
+      placeholder: Why is this needed? Who benefits?
+    validations: { required: true }
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      placeholder: What should change? Any alternatives?
+    validations: { required: true }
+  - type: checkboxes
+    id: check
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues and found no duplicate.
+          required: true
