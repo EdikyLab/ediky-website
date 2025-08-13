@@ -1,46 +1,33 @@
 // ediky_frontend/src/setupTests.js
 
-// 1) Add jest-dom matchers:
 import '@testing-library/jest-dom';
 
-// 2) Polyfill TextEncoder/TextDecoder for Undici in Firebase Auth:
+// Polyfills
 global.TextEncoder = require('util').TextEncoder;
 global.TextDecoder = require('util').TextDecoder;
-
-// 3) Polyfill ReadableStream for Undici in Firebase Auth:
 if (typeof global.ReadableStream === 'undefined') {
   global.ReadableStream = require('stream/web').ReadableStream;
 }
 
-// 4) Mock all Firebase modules so Jest never tries to load undici or real Firebase code:
-jest.mock('firebase/app', () => {
-  return {
-    initializeApp: jest.fn(() => ({})),
-  };
-});
-jest.mock('firebase/auth', () => {
-  return {
-    getAuth: jest.fn(() => ({})),
-  };
-});
-jest.mock('firebase/firestore', () => {
-  return {
-    getFirestore: jest.fn(() => ({})),
-  };
+// Firebase mocks
+jest.mock('firebase/app', () => ({ initializeApp: jest.fn(() => ({})) }));
+jest.mock('firebase/auth', () => ({ getAuth: jest.fn(() => ({})) }));
+jest.mock('firebase/firestore', () => ({ getFirestore: jest.fn(() => ({})) }));
+
+// ogl mock – no useless constructors
+jest.mock('ogl', () => {
+  class Renderer {}
+  class Camera {}
+  class Transform {}
+  return { Renderer, Camera, Transform };
 });
 
-// 5) Mock “ogl” so Jest doesn’t parse its ESM:
-jest.mock('ogl', () => ({
-  Renderer: class { constructor() {} },
-  Camera: class { constructor() {} },
-  Transform: class { constructor() {} },
-}));
-
-// 6) Mock the Three.js example that uses ESM syntax:
+// Three.js RoomEnvironment mock – no useless constructor
 jest.mock(
   'three/examples/jsm/environments/RoomEnvironment.js',
-  () => ({
-    RoomEnvironment: class { constructor() {} },
-  }),
+  () => {
+    class RoomEnvironment {}
+    return { RoomEnvironment };
+  },
   { virtual: true }
 );
