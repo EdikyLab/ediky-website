@@ -1,53 +1,166 @@
-# Ediky
+# EdikyStudio — Website
 
-Welcome to [Ediky](https://ediky.com/), your comprehensive hub for algorithms and machine learning resources.
+This repository contains the public marketing website for EdikyStudio, an AI-powered, minimalist video editor.
 
-## Features
+Website: [https://ediky.com/](https://ediky.com/)
+Contact: [bisoyi7004@gmail.com](mailto:bisoyi7004@gmail.com)
 
-* **Educational Content**: Access a wide range of tutorials and articles on algorithms and machine learning concepts.
-* **Interactive Examples**: Engage with hands-on examples to deepen your understanding of complex topics.
-* **Resource Library**: Explore a curated collection of books, research papers, and online courses to further your learning.
-* **Community Forum**: Join discussions with fellow learners and experts to share knowledge and insights.
+---
 
-## Local Development Setup
+## Product Highlights
 
-To set up Ediky for local development, follow these steps:
+* GPU-accelerated playback and export (Metal / Vulkan)
+* AI-assisted editing features such as auto-captions
+* Minimal, creator-focused interface
+* Professional export formats: H.264, HEVC, ProRes, image sequences
+* Supports 4K and 10-bit color
 
-1. **Clone the Repository**:
+Note: This repository is only for the website. Core editor applications and services are in separate repositories.
 
-   ```bash
-   git clone https://github.com/ediky/ediky-Website.git
-   cd ediky-Website
-   ```
+---
 
-2. **Install Dependencies**:
+## Technology Stack
 
-   Ensure you have [Node.js](https://nodejs.org/) installed. Then, run:
+* React with React Router
+* Custom CSS with Bootstrap utilities
+* Firebase Authentication (optional, for gated pages like a dashboard)
 
-   ```bash
-   npm install
-   ```
+---
 
-3. **Configure Environment Variables**:
+## Requirements
 
-   Create a `.env` file in the root directory and add your Firebase configuration:
+* Node.js 18+
+* npm 9+
 
-   ```env
-   REACT_APP_FIREBASE_API_KEY=your-firebase-api-key
-   REACT_APP_FIREBASE_AUTH_DOMAIN=your-firebase-auth-domain
-   REACT_APP_FIREBASE_PROJECT_ID=your-firebase-project-id
-   REACT_APP_FIREBASE_STORAGE_BUCKET=your-firebase-storage-bucket
-   REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your-firebase-messaging-sender-id
-   REACT_APP_FIREBASE_APP_ID=your-firebase-app-id
-   REACT_APP_FIREBASE_MEASUREMENT_ID=your-firebase-measurement-id
-   ```
+---
 
-   Replace the placeholder values with your actual Firebase project credentials.
+## Getting Started
 
-4. **Start the Development Server**:
+```bash
+# Clone repository
+git clone https://github.com/EdikyLab/ediky-website.git
+cd ediky-website
 
-   ```bash
-   npm start
-   ```
+# Install dependencies
+npm install
 
-   The application will run at [http://localhost:3000](http://localhost:3000).
+# Set up environment variables
+cp .env.example .env
+# Fill in values as needed
+
+# Start development server
+npm start
+# Open http://localhost:3000 in your browser
+```
+
+---
+
+## Environment Variables
+
+Create a `.env` file based on `.env.example`. If you are not using Firebase authentication, you can leave these blank and remove related code.
+
+```
+REACT_APP_FIREBASE_API_KEY=
+REACT_APP_FIREBASE_AUTH_DOMAIN=
+REACT_APP_FIREBASE_PROJECT_ID=
+REACT_APP_FIREBASE_STORAGE_BUCKET=
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=
+REACT_APP_FIREBASE_APP_ID=
+REACT_APP_FIREBASE_MEASUREMENT_ID=
+```
+
+---
+
+## NPM Scripts
+
+```bash
+npm start      # Start development server
+npm run build  # Create production build
+```
+
+---
+
+## Suggested Project Structure
+
+```
+ediky-website/
+├─ public/
+│  └─ index.html
+├─ src/
+│  ├─ assets/
+│  ├─ components/
+│  │  ├─ Header.jsx
+│  │  ├─ Footer.jsx
+│  │  └─ UI/...
+│  ├─ pages/
+│  │  ├─ Home.jsx
+│  │  ├─ Features.jsx
+│  │  ├─ Download.jsx
+│  │  ├─ Privacy.jsx
+│  │  └─ Dashboard.jsx   # Optional, behind auth
+│  ├─ routes.jsx
+│  ├─ auth/
+│  │  ├─ firebase.js     # Optional
+│  │  └─ useAuth.js      # Optional
+│  ├─ styles/
+│  │  └─ globals.css
+│  └─ main.jsx
+├─ .env.example
+├─ package.json
+└─ README.md
+```
+
+---
+
+## Routing
+
+* `/` — Landing page (hero, call-to-action, features)
+* `/features` — Editor highlights
+* `/download` — Links to installers or store pages
+* `/privacy` and `/terms` — Policy pages
+* `/dashboard` — Optional, gated with Firebase
+
+---
+
+## Development Guidelines
+
+* Use branch naming like `feat/*`, `fix/*`, `docs/*`, `chore/*`
+* Follow Conventional Commits (e.g., `feat: add hero section`)
+* Keep pull requests small and focused
+* Ensure builds pass before merging
+
+---
+
+## Contributing
+
+1. Open an issue for significant changes.
+2. Fork the repository and create a feature branch.
+3. Keep commits concise and meaningful.
+4. Submit a pull request with a clear description and screenshots for UI changes.
+
+Small contributions and fixes are welcome.
+
+---
+
+## Roadmap for Website
+
+* Improve performance (Lighthouse score 95+)
+* Add internationalization (i18n) and improve accessibility (WCAG 2.1 AA)
+* Introduce a blog/changelog section
+* Detect operating system automatically on the download page
+* Add a minimal dashboard with release notes and early access builds
+
+---
+
+## License
+
+© 2025 Ediky Labs. All rights reserved.
+
+For commercial or redistribution inquiries, contact: [bisoyi7004@gmail.com](mailto:bisoyi7004@gmail.com)
+
+---
+
+## Acknowledgements
+
+* Credits for icons and illustrations are in `/public/attribution.json` (if applicable)
+* Thanks to all contributors
