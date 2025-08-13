@@ -1,208 +1,147 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { emailLogin, emailSignup, googleLogin } from "./AuthService";
-import { UserContext } from "../context/UserContext";
-import ShapeBlur from "./ShapeBlur";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
+import { loginWithEmail, signupWithEmail, loginWithGoogle } from "./AuthService";
+import { signOut } from "firebase/auth";
+import { auth } from "./firebaseConfig";
+import edikyLogo from "../assets/ediky_logo.svg";
 import "./LoginPage.css";
 
+const HERO =
+  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop";
+
 export default function LoginPage() {
+  const { currentUser, loading } = useAuth();
+  const navigate = useNavigate();
+  const { search } = useLocation();
+  // DEFAULT = home (no forced dashboard)
+  const next = new URLSearchParams(search).get("next") || "/";
+
+  const [mode, setMode] = useState("signup");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLogin, setIsLogin] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPass, setShowPass] = useState(false);
+  const [remember, setRemember] = useState(true);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
   const [mounted, setMounted] = useState(false);
-  const [loadingEmail, setLoadingEmail] = useState(false);
-  const [loadingGoogle, setLoadingGoogle] = useState(false);
-  const [toast, setToast] = useState({ type: "", msg: "" });
-
-  const { setUser } = useContext(UserContext);
-  const navigate = useNavigate();
-  const emailRef = useRef(null);
 
   useEffect(() => {
-    // trigger entrance animations and autofocus
-    const t = setTimeout(() => setMounted(true), 20);
-    emailRef.current?.focus();
-    return () => clearTimeout(t);
+    const t = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(t);
   }, []);
 
-  const showToast = (type, msg) => {
-    setToast({ type, msg });
-    // auto-hide after 3.5s
-    setTimeout(() => setToast({ type: "", msg: "" }), 3500);
-  };
+  const finish = () => navigate(next, { replace: true });
 
-  const handleEmailSubmit = async (e) => {
+  const onSubmitEmail = async (e) => {
     e.preventDefault();
-    setLoadingEmail(true);
+    setBusy(true);
+    setErr("");
     try {
-      const u = isLogin
-        ? await emailLogin(email, password)
-        : await emailSignup(email, password);
-
-      setUser({
-        uid: u.uid,
-        name: u.displayName || u.email,
-        email: u.email,
-        progress: JSON.parse(localStorage.getItem("userProgress") || "{}"),
-      });
-
-      showToast("success", isLogin ? "Logged in successfully." : "Account created!");
-      navigate("/");
-    } catch (err) {
-      showToast("error", err?.message || "Something went wrong.");
+      if (mode === "login") await loginWithEmail(email, password, remember);
+      else await signupWithEmail(email, password, remember);
+      finish();
+    } catch (e) {
+      setErr(e?.message || "Something went wrong.");
     } finally {
-      setLoadingEmail(false);
+      setBusy(false);
     }
   };
 
-  const handleGoogleLogin = async () => {
-    setLoadingGoogle(true);
-    try {
-      const u = await googleLogin();
-      setUser({
-        uid: u.uid,
-        name: u.displayName || u.email,
-        email: u.email,
-        progress: JSON.parse(localStorage.getItem("userProgress") || "{}"),
-      });
-      showToast("success", "Google login successful!");
-      navigate("/");
-    } catch (err) {
-      showToast("error", err?.message || "Google login failed.");
-    } finally {
-      setLoadingGoogle(false);
-    }
+  const onGoogle = async () => {
+    setBusy(true); setErr("");
+    try { await loginWithGoogle(remember); finish(); }
+    catch (e) { setErr(e?.message || "Google login failed."); }
+    finally { setBusy(false); }
   };
+
+  const signedIn = !loading && !!currentUser;
+  const who = currentUser?.displayName || currentUser?.email;
 
   return (
-    <div className={`login-container page-fade ${mounted ? "in" : ""}`}>
-      <div className="login-content row justify-content-center g-4">
-        {/* Left: headline + visual */}
-        <div className="col-md-6 d-none d-md-flex flex-column align-items-center justify-content-center fade-up">
-          <h2 className="welcome-text text-gradient text-center mb-3">
-            Welcome to EdikyLabs
-          </h2>
-          <p className="welcome-sub text-center">
-            Build. Learn. Ship faster—beautifully.
-          </p>
-          <img
-            src="https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif"
-            alt="Animation"
-            className="login-animation"
-            loading="lazy"
-          />
+    <div className={`amu-auth-screen ${mounted ? "is-mounted" : ""}`}>
+      <div className={`amu-card-wrap pop-in ${mounted ? "is-active" : ""}`}>
+        {/* LEFT */}
+        <div className="amu-media fade-in">
+          <div className="amu-media-header">
+            <img src={edikyLogo} alt="" />
+            <span>AMU</span>
+            <Link to="/" className="amu-back-pill">Back to website</Link>
+          </div>
+
+          <div className="amu-media-image kenburns" style={{ backgroundImage: `url(${HERO})` }}>
+            <div className="amu-media-gradient" />
+            <div className="amu-media-caption slide-up">
+              <h4>Capturing Moments,<br />Creating Memories</h4>
+              <div className="amu-dots" aria-hidden>
+                <span className="dot active" /><span className="dot" /><span className="dot" />
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Right: form + blur */}
-        <div className="col-md-5 col-sm-12 form-section">
-          <ShapeBlur
-            className="shape-background"
-            variation={0}
-            pixelRatioProp={typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1}
-            shapeSize={1.2}
-            roundness={0.8}
-            borderSize={0.05}
-            circleSize={0.5}
-            circleEdge={1}
-          />
-
-          <div className={`login-card card-pop ${mounted ? "in" : ""}`} role="dialog" aria-modal="true">
-            {/* Inline Toast */}
-            {toast.msg && (
-              <div className={`inline-toast ${toast.type}`}>
-                <i className={`me-2 ${toast.type === "success" ? "fas fa-check-circle" : "fas fa-exclamation-circle"}`} />
-                {toast.msg}
-              </div>
-            )}
-
-            <h2 className="login-card-title">
-              {isLogin ? "Login to EdikyLabs" : "Create your account"}
-            </h2>
-            <p className="muted mb-3">
-              {isLogin ? "Welcome back! Please sign in." : "Join us in a few seconds."}
-            </p>
-
-            <form onSubmit={handleEmailSubmit} noValidate>
-              <div className="field">
-                <i className="fas fa-envelope field-icon" aria-hidden="true" />
-                <input
-                  ref={emailRef}
-                  type="email"
-                  className="login-input"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  autoComplete="email"
-                  aria-label="Email"
-                />
-              </div>
-
-              <div className="field">
-                <i className="fas fa-lock field-icon" aria-hidden="true" />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className="login-input"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  autoComplete={isLogin ? "current-password" : "new-password"}
-                  aria-label="Password"
-                  minLength={6}
-                />
-                <button
-                  type="button"
-                  className="field-trailing"
-                  onClick={() => setShowPassword((s) => !s)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                >
-                  <i className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`} />
-                </button>
-              </div>
-
-              <button
-                type="submit"
-                className="login-btn login-btn-primary"
-                disabled={loadingEmail || loadingGoogle}
-              >
-                {loadingEmail ? (
-                  <span className="spinner" aria-hidden="true" />
-                ) : (
-                  <i className="fas fa-arrow-right-to-bracket me-2" aria-hidden="true" />
-                )}
-                {isLogin ? "Login" : "Sign Up"}
-              </button>
-            </form>
-
-            <div className="divider"><span>or</span></div>
-
-            <button
-              type="button"
-              className="login-btn login-btn-google"
-              onClick={handleGoogleLogin}
-              disabled={loadingEmail || loadingGoogle}
-            >
-              {loadingGoogle ? (
-                <span className="spinner" aria-hidden="true" />
+        {/* RIGHT */}
+        <div className="amu-form fade-in">
+          <div className="amu-form-head">
+            <h1>{mode === "signup" ? "Create an account" : "Welcome back"}</h1>
+            <p className="amu-small">
+              {mode === "signup" ? (
+                <>Already have an account? <button className="amu-inline-link" onClick={() => setMode("login")}>Log in</button></>
               ) : (
-                <i className="fab fa-google me-2" aria-hidden="true" />
+                <>Don’t have an account? <button className="amu-inline-link" onClick={() => setMode("signup")}>Sign up</button></>
               )}
-              {isLogin ? "Sign in with Google" : "Continue with Google"}
-            </button>
-
-            <p className="login-toggle-text">
-              {isLogin ? "Don't have an account?" : "Already have one?"}
-              <button
-                className="login-toggle-link"
-                onClick={() => setIsLogin((p) => !p)}
-                type="button"
-              >
-                {isLogin ? " Create Account" : " Login"}
-              </button>
             </p>
           </div>
+
+          {signedIn ? (
+            <div className="amu-signedin">
+              <div className="amu-note">You’re already signed in</div>
+              <div className="amu-user">{who}</div>
+              <div className="amu-btn-row">
+                <Link to={next} className="amu-btn amu-btn-primary hover-lift">Continue</Link>
+                <button className="amu-btn amu-btn-ghost" onClick={() => signOut(auth)}>Sign out</button>
+              </div>
+            </div>
+          ) : (
+            <>
+              {err && <div className="amu-error" role="alert">{err}</div>}
+              <form className="amu-fields" onSubmit={onSubmitEmail} noValidate>
+                <label className="amu-field">
+                  <span className="amu-label">Email</span>
+                  <input className="amu-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" autoComplete="email" required />
+                </label>
+
+                <label className="amu-field">
+                  <span className="amu-label">Enter your password</span>
+                  <div className="amu-passwrap">
+                    <input className="amu-input" type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} minLength={6} autoComplete={mode === "login" ? "current-password" : "new-password"} placeholder="••••••••" required />
+                    <button type="button" className="amu-peek" onClick={() => setShowPass((v) => !v)} aria-label={showPass ? "Hide password" : "Show password"}>
+                      <i className={`fa-regular ${showPass ? "fa-eye-slash" : "fa-eye"}`} />
+                    </button>
+                  </div>
+                </label>
+
+                <label className="amu-check">
+                  <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
+                  <span>I agree to the <a href="/terms">Terms & Conditions</a></span>
+                </label>
+
+                <button type="submit" disabled={busy} aria-busy={busy} className="amu-btn amu-btn-primary amu-btn-block hover-lift sheen">
+                  {busy ? "Please wait…" : (mode === "signup" ? "Create account" : "Sign in")}
+                </button>
+              </form>
+
+              <div className="amu-or">Or continue with</div>
+              <div className="amu-providers">
+                <button className="amu-btn amu-btn-outline hover-lift" onClick={onGoogle} disabled={busy}>
+                  <i className="fab fa-google" /> Google
+                </button>
+                <button className="amu-btn amu-btn-outline" disabled title="Coming soon">
+                  <i className="fab fa-apple" /> Apple
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

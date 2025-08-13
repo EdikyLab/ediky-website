@@ -1,0 +1,5 @@
+[
+  { "title": "Introduction", "file": "Intro.md" },
+  { "title": "Getting Started", "file": "getting-started.md" },
+  { "title": "API Reference", "file": "api.md" }
+]

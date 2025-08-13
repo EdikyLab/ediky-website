@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
 
 .ascii-text-container {
-    position: relative;
-    width: 100%;
-    height: 500px;
-    overflow: hidden;
-    font-family: 'IBM Plex Mono', monospace;
-  }
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  font-family: 'IBM Plex Mono', monospace;
+}
 
 .ascii-filter {
   position: absolute;
@@ -26,9 +26,12 @@
   user-select: none;
   margin: 0;
   padding: 0;
-  line-height: 0.8em;      /* ↓ less vertical gap between rows */
-  letter-spacing: 0.05em;  /* ↓ slightly closer columns */
-  font-size: 12px !important; /* ↓ smaller font to pack more chars */
+  line-height: 0.8em;
+  /* ↓ less vertical gap between rows */
+  letter-spacing: 0.05em;
+  /* ↓ slightly closer columns */
+  font-size: 12px !important;
+  /* ↓ smaller font to pack more chars */
   z-index: 8;
 
   background-image: radial-gradient(circle, #ff6188 0%, #fc9867 50%, #ffd866 100%);
@@ -43,11 +46,13 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+
 *::-webkit-scrollbar {
   width: 0;
   height: 0;
   background: transparent;
 }
+
 *::-webkit-scrollbar-thumb {
   background: transparent;
 }

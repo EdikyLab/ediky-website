@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./WelcomeSection.css";
 import { useNavigate } from "react-router-dom";
+import previewVid from "../assets/video_editor.mov";
 
 export default function WelcomeSection() {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function WelcomeSection() {
     else go();
   };
 
-  // preview progress
+  // track progress
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
@@ -31,13 +32,8 @@ export default function WelcomeSection() {
   const togglePlay = () => {
     const v = videoRef.current;
     if (!v) return;
-    if (v.paused) {
-      v.play();
-      setPlaying(true);
-    } else {
-      v.pause();
-      setPlaying(false);
-    }
+    if (v.paused) { v.play(); setPlaying(true); }
+    else { v.pause(); setPlaying(false); }
   };
 
   const hoverScrub = (e) => {
@@ -49,10 +45,7 @@ export default function WelcomeSection() {
   };
 
   const keyControls = (e) => {
-    if (e.key === " ") {
-      e.preventDefault();
-      togglePlay();
-    }
+    if (e.key === " ") { e.preventDefault(); togglePlay(); }
   };
 
   return (
@@ -67,12 +60,8 @@ export default function WelcomeSection() {
           </p>
 
           <div className="cta-row">
-            <a href="/download" onClick={softNav("/download")} className="btn btn-primary">
-              Download
-            </a>
-            <a href="/demo" onClick={softNav("/demo")} className="btn btn-ghost">
-              Watch Demo
-            </a>
+            <a href="/download" onClick={softNav("/download")} className="btn btn-primary">Download</a>
+            <a href="/demo" onClick={softNav("/demo")} className="btn btn-ghost">Watch Demo</a>
           </div>
 
           <ul className="hero-stats">
@@ -95,13 +84,19 @@ export default function WelcomeSection() {
             <video
               ref={videoRef}
               className="preview-media"
-              src="/media/hero.mp4"
               autoPlay
-              playsInline
               muted
+              playsInline
               loop
+              preload="metadata"
               aria-label="EdikyStudio preview"
-            />
+              onError={(e) => console.warn("Video failed to load", e)}
+            >
+              <source src={previewVid} type="video/mp4" />
+              {/* Add a WebM fallback if you have it:
+                  <source src={previewWebm} type="video/webm" /> */}
+            </video>
+
             <button
               type="button"
               className={`preview-ctrl ${playing ? "is-playing" : "is-paused"}`}
@@ -109,6 +104,7 @@ export default function WelcomeSection() {
               aria-label={playing ? "Pause preview" : "Play preview"}
               onClick={(e) => { e.stopPropagation(); togglePlay(); }}
             />
+
             <div className="preview-progress" style={{ "--p": progress }} />
             <div className="preview-hint">Hover to scrub · Space to pause</div>
           </div>

@@ -146,10 +146,10 @@ class AsciiFilter {
     for (let y = 0; y < h; y++) {
       for (let x = 0; x < w; x++) {
         const i = x * 4 + y * 4 * w;
-        const [r,g,b,a] = [imgData[i], imgData[i+1], imgData[i+2], imgData[i+3]];
+        const [r, g, b, a] = [imgData[i], imgData[i + 1], imgData[i + 2], imgData[i + 3]];
         if (a === 0) { str += ' '; continue; }
-        let gray = (0.3*r + 0.6*g + 0.1*b)/255;
-        let idx = Math.floor((1-gray)*(this.charset.length-1));
+        let gray = (0.3 * r + 0.6 * g + 0.1 * b) / 255;
+        let idx = Math.floor((1 - gray) * (this.charset.length - 1));
         if (this.invert) idx = this.charset.length - idx - 1;
         str += this.charset[idx];
       }
@@ -165,7 +165,7 @@ class AsciiFilter {
 
 // === Canvas Text Helper ===
 class CanvasTxt {
-  constructor(txt, { fontSize=200, fontFamily='Arial', color='#fdf9f3' } = {}) {
+  constructor(txt, { fontSize = 200, fontFamily = 'Arial', color = '#fdf9f3' } = {}) {
     this.canvas = document.createElement('canvas');
     this.ctx = this.canvas.getContext('2d');
     this.txt = txt;
@@ -184,7 +184,7 @@ class CanvasTxt {
   }
 
   render() {
-    this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = this.color;
     this.ctx.font = this.font;
     const m = this.ctx.measureText(this.txt);
@@ -203,17 +203,17 @@ class CanvAscii {
     Object.assign(this, opts);
     this.container = container;
     this.width = w; this.height = h;
-    this.camera = new THREE.PerspectiveCamera(45, w/h, 1, 1000);
+    this.camera = new THREE.PerspectiveCamera(45, w / h, 1, 1000);
     this.camera.position.z = 30;
     this.scene = new THREE.Scene();
-    this.mouse = {x:0,y:0};
+    this.mouse = { x: 0, y: 0 };
     this.onMouseMove = this.onMouseMove.bind(this);
     this.initMesh();
     this.initRenderer();
   }
 
   initMesh() {
-    this.textCanvas = new CanvasTxt(this.text, { fontSize: this.textFontSize, fontFamily:'IBM Plex Mono', color: this.textColor });
+    this.textCanvas = new CanvasTxt(this.text, { fontSize: this.textFontSize, fontFamily: 'IBM Plex Mono', color: this.textColor });
     this.textCanvas.resize();
     this.textCanvas.render();
     this.texture = new THREE.CanvasTexture(this.textCanvas.texture);
@@ -222,12 +222,12 @@ class CanvAscii {
     const ph = this.planeBaseHeight; const pw = ph * aspect;
     this.geometry = new THREE.PlaneGeometry(pw, ph, 36, 36);
     this.material = new THREE.ShaderMaterial({
-      vertexShader, fragmentShader, transparent:true,
+      vertexShader, fragmentShader, transparent: true,
       uniforms: {
-        uTime: {value:0},
-        mouse: {value:1.0},
-        uTexture: {value: this.texture},
-        uEnableWaves: {value: this.enableWaves?1.0:0.0}
+        uTime: { value: 0 },
+        mouse: { value: 1.0 },
+        uTexture: { value: this.texture },
+        uEnableWaves: { value: this.enableWaves ? 1.0 : 0.0 }
       }
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
@@ -235,21 +235,21 @@ class CanvAscii {
   }
 
   initRenderer() {
-    this.renderer = new THREE.WebGLRenderer({alpha:true,antialias:false});
+    this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false });
     this.renderer.setPixelRatio(1);
-    this.renderer.setClearColor(0x000000,0);
-    this.filter = new AsciiFilter(this.renderer, { fontFamily:'IBM Plex Mono', fontSize: this.asciiFontSize, invert:true });
+    this.renderer.setClearColor(0x000000, 0);
+    this.filter = new AsciiFilter(this.renderer, { fontFamily: 'IBM Plex Mono', fontSize: this.asciiFontSize, invert: true });
     this.container.appendChild(this.filter.domElement);
     this.setSize(this.width, this.height);
     this.container.addEventListener('mousemove', this.onMouseMove);
     this.container.addEventListener('touchmove', this.onMouseMove);
   }
 
-  setSize(w,h) {
+  setSize(w, h) {
     this.width = w; this.height = h;
-    this.camera.aspect = w/h; this.camera.updateProjectionMatrix();
-    this.filter.setSize(w,h);
-    this.center = {x: w/2, y: h/2};
+    this.camera.aspect = w / h; this.camera.updateProjectionMatrix();
+    this.filter.setSize(w, h);
+    this.center = { x: w / 2, y: h / 2 };
   }
 
   onMouseMove(evt) {
